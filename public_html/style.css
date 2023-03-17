@@ -1,0 +1,277 @@
+/* STYLESHEET */
+*
+{
+	margin:0;
+	padding:0;
+}
+
+img { border:0; }
+
+
+body
+{
+	font-family:"Fira Sans";
+	background-image: url("../bg_dotted.png");
+}
+
+
+html
+{
+	height:100%;
+	padding-bottom:1px;
+}
+
+#contentColumn {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 0 0 0 0;
+    box-shadow: 0px 1px 5px #555555;
+    margin: -10px auto 20px;
+    width: 85%;
+}
+
+#contentColumn {
+    padding-bottom: 1em;
+    padding-top: 3em;
+}
+#contentColumn .inside {
+    padding: 0 0.5em;
+    position: relative;
+    top: -2em;
+}
+
+#logo
+{
+	width:800px;
+	height:100%;
+	padding-left:5px;
+	display:block;
+}
+
+#logo a
+{
+	color:#000;
+	text-decoration:none;
+}
+
+
+a { color:#003E74; text-decoration:none;}
+
+a:visited { color:#002147; }
+
+span.orange { color:#003E74; }
+
+div.clear
+{
+	width:100%;
+	clear:both;
+	height:30px;
+}
+
+#header
+{
+	text-align:center;
+	margin:0 auto;
+	width:800px;
+	font-size:40px;
+	font-weight:normal;
+}
+
+ul#navigation
+{
+	width:80%;
+	margin:0 auto;
+	padding-left:20px;
+	padding-right:20px;
+}
+	
+ul#navigation li
+{
+	color:#000;
+	float:left;
+	list-style-type:none;
+	width:33%;
+}
+
+ul#navigation li a
+{
+	display:block;
+	color:#000;
+	font-size:25px;
+	width:100%;
+	text-align:center;
+}
+
+ul#navigation li a:hover
+{
+	color:#003E74;
+}
+
+ul#navigation li:nth-child(even) a
+{
+	color:#003E74;
+}
+
+ul#navigation li:nth-child(even) a:hover
+{
+	color:#000;
+}
+
+div.content
+{
+	width:70%;
+	margin:0px auto;
+	text-align: justify;
+	
+}
+
+div.photo
+{
+	float:left;
+	padding-right:25px;
+	width:30%;
+	text-align:center;
+}
+
+div.photo img
+{
+	max-width:100%;
+	max-height:100%;
+	height: auto;
+	padding-bottom:15px;
+}
+
+#footer
+{
+	font-size:14px;
+	width:85%;
+	margin:20px auto;
+	text-align:right;
+}
+
+
+label
+{
+	color:#003E74;
+	font-size:18px;
+	display:block;
+}
+
+label > span
+{
+	color:#000;
+	font-size:14px;
+}
+
+input[type="text"], input[type="password"], input[type="date"]
+{
+	width:300px;
+	font-family:'Fira Sans';
+	height:20px;
+	padding:5px;
+	text-align:left;
+	border:1px solid #555;
+	margin-top:10px;
+	margin-bottom:10px;
+	margin-left:5px;
+}
+
+textarea
+{
+	width:800px;
+	font-family:'Fira Sans';
+	height:260px;
+	padding:5px;
+	text-align:left;
+	border:1px solid #555;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus, input[type="date"]:focus
+{
+	outline:2px solid #003E74;
+}
+
+h2
+{
+	font-size:30px;
+	font-weight:normal;
+	margin-bottom:10px;
+	width:100%;
+	margin:0 auto 20px;
+}
+
+input[type="submit"], button
+{
+	font-size:16px;
+	font-weight:normal;
+	margin:0 auto;
+	border:1px solid #555;
+	background-color:#FFF;
+	padding:5px;
+	display:block;
+}
+
+input[type="submit"]:hover, button:hover
+{
+	outline:2px solid #003E74;
+	cursor:pointer;
+}
+
+span.error
+{
+	color:red;
+	font-size:16px;
+}
+
+ul.futuretalks, ul.pasttalks {
+	list-style-type: none;
+}
+
+ul.futuretalks li, ul.pasttalks li {
+	padding:30px;
+	margin-left:10px;
+	margin-top:20px;
+	border: 1px solid #000;
+	box-shadow: -1px 1px 1px #003E74;
+
+}
+
+ul.futuretalks li.first {
+	border: 3px solid #003E74;
+}
+
+ul.futuretalks li.first h3.title:before {
+	content: "Next Talk: \A \A";
+	white-space:pre-wrap;
+}
+
+
+.lighter {
+	font-weight:lighter;
+}
+
+td, th {
+	border-bottom:1px solid #000;
+	padding-bottom:5px;
+	padding-left:0px;
+	padding-right:0px;
+}
+
+ul.pagination {
+	list-style-type:none;
+	margin-top:15px;
+}
+ul.pagination li {
+	float:left;
+}
+ul.pagination li a{
+	display:block;
+	padding:5px;
+	border:1px solid #555;
+	margin-right:5px;
+}
+ul.pagination li.active a {
+	border:2px solid #003E74;
+	font-weight:bold;
+}

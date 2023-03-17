@@ -1,0 +1,1 @@
+<? header("Location: http://wwwf.imperial.ac.uk/~jbm18/ijg/"); die(); ?>
