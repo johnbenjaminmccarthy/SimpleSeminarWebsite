@@ -36,14 +36,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		$talktoedit = $talksdoc->xpath('talk[@id="' . $_POST['editid'] . '"]')[0];
 		?>
 		<h3>Editing talk: <span class="lighter"><?php echo htmlspecialchars($talktoedit->title); ?></span></h3>
-		<form action="addtalk.php" method="post" >
+		<form action="addtalk.php" method="post" enctype="multipart/form-data" >
 		<b>Title:</b> <input type="text" name="title" value="<?php echo htmlspecialchars($talktoedit->title);?>"><br />
 		<b>Date:</b> <input type="date" name="date" value="<?php echo date("Y-m-d", strtotime($talktoedit->date));?>"><br />
 		<b>Speaker:</b> <input type="text" name="speaker" value="<?php echo htmlspecialchars($talktoedit->speaker);?>"><br />
 		<b>Institution:</b> <input type="text" name="institution" value="<?php echo htmlspecialchars($talktoedit->institution);?>"><br />
 		<b>Abstract:</b><br />
 		<textarea name="abstract"><?php echo htmlspecialchars($talktoedit->abstract);?></textarea><br />
-		<input type="hidden" name="editid" value="<?php echo $_POST['editid'] ?>"> 
+		<input type="hidden" name="editid" value="<?php echo $_POST['editid'] ?>">
+        <b>Upload notes:</b> <input type="file" name="notes" id="notes"><?php if ($talktoedit->notes) { echo " Current notes uploaded here: <a href='" . $talktoedit->notes . "'>" . basename($talktoedit->notes) ."</a>."; } ?><br />
 		<button type="submit" name="formtype" value="submitedit" style="display:inline-block">Edit Talk</button> 
 		</form><button onclick="window.location.href='addtalk.php'" style="display:inline-block; margin-top:10px;">Cancel Editing</button>
 		<?php
@@ -58,37 +59,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		$talktoedit->speaker = htmlspecialchars($_POST['speaker'], ENT_XML1, 'UTF-8');
 		$talktoedit->institution = htmlspecialchars($_POST['institution'], ENT_XML1, 'UTF-8');
 		$talktoedit->date = $newdate;
-		$talktoedit->abstract = htmlspecialchars($_POST['abstract'], ENT_XML1, 'UTF-8');
-		/* if ($_FILES['notes']['name'] != '')
+		$talktoedit->abstract = trim(htmlspecialchars($_POST['abstract'], ENT_XML1, 'UTF-8'));
+
+        if ($_FILES['notes']['name'] != '')
 		{
-			$uploaddir = '/userdir/jbm18/public_html/ijg/';
-			$uploadfile = $uploaddir . basename($_FILES['notes']['name']);
-			$notesurl = 'http://wwwf.imperial.ac.uk/~jbm18/ijg/notes/' . basename($_FILES['notes']['name']);
-			echo $_FILES['notes']['tmp_name'] . '<br />';
-			echo htmlspecialchars(readfile($_FILES['notes']['tmp_name'])) . '<br />';
-			file_put_contents($uploadfile, 'testing');
-			if (move_uploaded_file($_FILES['notes']['tmp_name'], $uploadfile))
-			{
-				if ($talktoedit->notes != '')
-				{	
-					try
-					{
-						unlink($uploaddir . basename($talktoedit->notes));
-					}
-					catch (Exception $e)
-					{
-						echo "Deleting old notes " . $talktoedit->notes . " failed. Exception:" . $e->getMessage();
-					}
-				}
-				$talktoedit->notes = $notesurl;
-				echo "File has been uploaded successfully <a href='" . $notesurl . "'>here</a>";
-			}
-			else
-			{
-				echo "File upload failed.";
-			}
-			print_r($_FILES);
-		}  */
+            if (strtolower(pathinfo($_FILES['notes']['name'],PATHINFO_EXTENSION)) != 'pdf') {
+                echo "Only PDF files are allowed as notes.";
+            }
+            else {
+                $uploaddir = getcwd() . '/notes/';
+                if (pathinfo($_FILES['notes']['name'], PATHINFO_FILENAME == pathinfo($talktoedit->notes,PATHINFO_FILENAME))) {
+                    $_FILES['notes']['name'] = "(2)" . $_FILES['notes']['name'];
+                }
+                $uploadfile = $uploaddir . basename($_FILES['notes']['name']);
+                $notesurl = './notes/' . basename($_FILES['notes']['name']);
+                if (move_uploaded_file($_FILES['notes']['tmp_name'], $uploadfile))
+                {
+                    if ($talktoedit->notes != '')
+                    {
+                        try
+                        {
+                            //echo "Deleting " . $uploaddir . basename($talktoedit->notes);
+                            unlink($uploaddir . basename($talktoedit->notes));
+                        }
+                        catch (Exception $e)
+                        {
+                            echo "Deleting old notes " . $talktoedit->notes . " failed. Exception:" . $e->getMessage();
+                        }
+                    }
+                    $talktoedit->notes = $notesurl;
+                    echo "File has been uploaded successfully <a href='" . $notesurl . "'>here</a><br />>";
+                }
+                else
+                {
+                    echo "File upload failed.";
+                }
+            }
+		}
 		$talksdoc->asXML("talks.xml");
 		echo"Talk edited successfully!<br />";
 		break;
@@ -124,9 +131,9 @@ if ($_SERVER["REQUEST_METHOD"] != "POST" OR $_POST['formtype'] == 'addtalk' OR $
 <div class="clear"></div>
 <?php
 
-$talks = simplexml_load_file("talks.xml");
+$talks = (array) simplexml_load_file("talks.xml");
 
-usort($talks, "compareId");
+usort($talks["talk"], "compareId");
 
 ?>
 
@@ -134,15 +141,16 @@ usort($talks, "compareId");
 	<tr>
 		<th style="width:5%">Id</th>
 		<th style="width:20%">Title</th>
-		<th style="width:15%">Speaker</th>
+		<th style="width:10%">Speaker</th>
 		<th style="width:5%">Institution</th>
 		<th style="width:10%">Date</th>
 		<th style="width:35%">Abstract</th>
+        <th style="width:5%">Notes</th>
 		<th style="width:10%"></th>
 	</tr>
 <?php
 
-foreach ($talks as $talk)
+foreach ($talks["talk"] as $talk)
 {
 	echo '<tr>';
 	echo '<td>' . $talk[0]['id'] . '</td>';
@@ -150,7 +158,8 @@ foreach ($talks as $talk)
 	echo '<td>' . htmlspecialchars($talk->speaker) . '</td>';
 	echo '<td>' . htmlspecialchars($talk->institution). '</td>';
 	echo '<td>' . date("Y-m-d", strtotime($talk->date)) . '</td>';
-	echo '<td>' . htmlspecialchars($talk->abstract) . '</td>';
+	echo '<td>' . nl2br(trim(htmlspecialchars($talk->abstract))) . '</td>';
+    echo '<td>'; if ($talk->notes) { echo "<a href='" . $talk->notes . "'>" . $talk->notes . "</a>"; }; echo '</td>';
 	echo '<td> <form action="addtalk.php" method="post"><input type="hidden" name="editid" value="' . $talk[0]['id'] . '"><button type="submit" name="formtype" value="edittalk">Edit</button></form><form action="addtalk.php" method="post" onsubmit="return confirm(\'Are you sure you want to delete:\n ' . htmlspecialchars($talk->title) . '\n?\')"> <input type="hidden" name="deleteid" value="' . $talk[0]['id'] . '"><button type="submit" name="formtype" value="deletetalk">Delete</button></form></td>';
 	echo '</tr>';
 

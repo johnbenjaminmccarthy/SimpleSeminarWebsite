@@ -1,11 +1,11 @@
 <Files "addtalk.php">
-AuthUserFile /www/sites/ma.ic.ac.uk/userdir/jbm18/.htpasswd
+AuthUserFile C:/xampp/htdocs/seminarwebsite/.htpasswd
 AuthName "Add a Talk"
 AuthType Basic
 require valid-user
 </Files>
 <Files "talks.xml">
-AuthUserFile /www/sites/ma.ic.ac.uk/userdir/jbm18/.htpasswd
+AuthUserFile C:/xampp/htdocs/seminarwebsite/.htpasswd
 AuthName "Add a Talk"
 AuthType Basic
 require valid-user
