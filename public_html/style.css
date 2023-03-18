@@ -11,7 +11,6 @@ img { border:0; }
 body
 {
 	font-family:"Fira Sans";
-	background-image: url("../bg_dotted.png");
 }
 
 
@@ -162,7 +161,7 @@ label > span
 	font-size:14px;
 }
 
-input[type="text"], input[type="password"], input[type="date"]
+input[type="text"], input[type="password"], input[type="date"], input[type="file"]
 {
 	width:300px;
 	font-family:'Fira Sans';
@@ -187,7 +186,7 @@ textarea
 	margin-bottom:10px;
 }
 
-input[type="text"]:focus, input[type="password"]:focus, textarea:focus, input[type="date"]:focus
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus, input[type="date"]:focus, input[type="file"]:focus
 {
 	outline:2px solid #003E74;
 }

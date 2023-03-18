@@ -6,7 +6,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>Imperial Junior Geometry Seminar<?php echo $page ? ' - ' . $page : '' ?></title>
+<title>Geometry Seminar<?php echo isset($page) ? ' - ' . $page : '' ?></title>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"> 
 <link rel="stylesheet" type="text/css" href="style.css" />
@@ -24,8 +24,8 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 
 <div id="header">
 <div id="logo">
-<a href="http://wwwf.imperial.ac.uk/~jbm18/ijg">
-Imperial <span class="orange">Junior</span> Geometry <span class="orange">Seminar</span>
+<a href="./index.php">
+Geometry <span class="orange">Seminar</span>
 </a>
 </div>
 
@@ -34,8 +34,8 @@ Imperial <span class="orange">Junior</span> Geometry <span class="orange">Semina
 
 <ul id="navigation">
 <li><a href="./index.php">Upcoming Talks</a></li>
-<li><a href="https://www.homepages.ucl.ac.uk/~ucaheps/LSGNTtopics.html">Topics in Geometry</a></li>
-<li><a href="http://geometry.ma.ic.ac.uk/seminar/">Imperial Geometry and Topology Seminar</a></li>
+<li><a href="./">Link to other seminar 1</a></li>
+<li><a href="./">Link to other seminar 2</a></li>
 </ul>
 
 <div class="clear"></div>
@@ -52,8 +52,8 @@ function compareDates($talk1, $talk2)
 
 function compareId($talk1, $talk2)
 {
-	if (  (int)$talk1[0]['id'] == (int)$talk2[0]['id']) {return 0; }
-	return ((int)$talk1[0]['id'] < (int)$talk2[0]['id']) ? -1 : 1;
+	if ((int)$talk1->attributes()['id'] == (int)$talk2->attributes()['id']) {return 0; }
+	return ((int)$talk1->attributes()['id'] < (int)$talk2->attributes()['id']) ? -1 : 1;
 }
 
 
